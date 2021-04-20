@@ -103,3 +103,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 scripts/python/settings.ini
+scripts/python/restore.settings.ini
