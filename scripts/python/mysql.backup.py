@@ -6,7 +6,7 @@ import re
 
 
 config = configparser.ConfigParser()
-config.read('C:\Git\curiosaboutdata\scripts\python\settings.ini')
+config.read(os.path.join(os.path.dirname(os.path.realpath(__file__)),'settings.ini'))
 host = config.get('mysql', 'host')
 mysql_port = config.get('mysql', 'port')
 user = config.get('mysql', 'user')

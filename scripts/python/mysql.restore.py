@@ -6,17 +6,17 @@ import os
 
 
 config = configparser.ConfigParser()
-config.read('restore.setting.ini')
-host = config.get('mysql', 'host')
-mysql_port = config.get('mysql', 'port')
-user = config.get('mysql', 'user')
-password = config.get('mysql', 'password')
-db_name = config.get('mysql', 'db')
-root_dir = config.get('mysql', 'restore_dir')
-put_routines = int(config.get('mysql', 'put_routines'))
-put_schema = int(config.get('mysql', 'put_schema'))
-put_data = int(config.get('mysql', 'put_data'))
-mysql_dir = config.get('mysql', 'mysql_dir')
+config.read(os.path.join(os.path.dirname(os.path.realpath(__file__)),'settings.ini'))
+host = config.get('restore', 'host')
+mysql_port = config.get('restore', 'port')
+user = config.get('restore', 'user')
+password = config.get('restore', 'password')
+db_name = config.get('restore', 'db')
+root_dir = config.get('restore', 'restore_dir')
+#put_routines = int(config.get('restore', 'put_routines'))
+put_schema = int(config.get('restore', 'put_schema'))
+put_data = int(config.get('restore', 'put_data'))
+mysql_dir = config.get('restore', 'mysql_dir')
 mysql='"' +mysql_dir + "mysql.exe"+'"'
 
 conn1 = pymysql.connect(host=host, port=int(mysql_port), user=user, password=password, database="mysql")
