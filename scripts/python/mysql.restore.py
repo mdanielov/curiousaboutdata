@@ -7,17 +7,17 @@ from os import path
 
 config = configparser.ConfigParser()
 config.read(os.path.join(os.path.dirname(os.path.realpath(__file__)),'settings.ini'))
-host = config.get('mysql', 'host')
-mysql_port = config.get('mysql', 'port')
-user = config.get('mysql', 'user')
-password = config.get('mysql', 'password')
-mysql_path = config.get('mysql', 'mysql_dir')
-AllDBs = config.get('restore', 'AllDBs')
+host = config.get('restore', 'host')
+mysql_port = config.get('restore', 'port')
+user = config.get('restore', 'user')
+password = config.get('restore', 'password')
+AllDBs = int(config.get('restore', 'AllDBs'))
 db_list = config.get("restore", "db_list").split(",")
 root_dir = config.get('restore', 'restore_dir')
 put_routines = int(config.get('restore', 'put_routines'))
 put_schema = int(config.get('restore', 'put_schema'))
 put_data = int(config.get('restore', 'put_data'))
+mysql_path = config.get('mysql', 'mysql_dir')
 mysql='"' +mysql_path + "\mysql.exe"+'"'
 
 connection = pymysql.connect(host=host, port=int(mysql_port), user=user, password=password)
@@ -34,14 +34,14 @@ def main():
 
         for d in dirs:
             # process each database backup directory
-            backup_dir = os.path.join(root_dir, "d")
+            backup_dir = os.path.join(root_dir, d)
             if os.path.isdir(backup_dir):
                 # check if db exists on target, if exists error if not create
-                qry_show_db = "SHOW DATABASES LIKE `{}`".format(d)
+                qry_show_db = "SHOW DATABASES LIKE '{}'".format(d)
                 cursor = connection.cursor()
                 cursor.execute(qry_show_db)
                 if cursor.rowcount:
-                    print('Cannot restore database {} already exists. Drop database in order to restore.')
+                    print('Cannot restore database {} already exists. Drop database in order to restore.'.format(d))
                 else:
                     qry_create_db = "CREATE DATABASE IF NOT EXISTS `{}`;".format(d)
                     cursor.execute(qry_create_db)
@@ -52,25 +52,26 @@ def main():
                  
                     if put_schema == 1:  
                         # process schema
-                        if os.path.isdir(os.path.join(root_dir, "schema")):
-                            walk_dirs(os.path.join(root_dir, "schema"), "schema")
+                        if os.path.isdir(os.path.join(backup_dir, "schema")):
+                            walk_dirs(os.path.join(backup_dir, "schema"), "schema")
                         else:
-                            print("{} schema backup directory does not exist", backup_dir)
+                            print("{} schema backup directory does not exist".format(backup_dir))
                     if put_data == 1:
                         # process data
-                        if os.path.isdir(os.path.join(root_dir, "data")):
-                            walk_dirs(os.path.join(root_dir, "data"), "data")
+                        if os.path.isdir(os.path.join(backup_dir, "data")):
+                            walk_dirs(os.path.join(backup_dir, "data"), "data")
                         else:
-                            print("{} data backup directory does not exist", backup_dir)
+                            print("{} data backup directory does not exist".format(backup_dir))
             else:
-                print("{} backup directory does not exist", backup_dir)
+                print("{} backup directory does not exist".format(backup_dir))
     else:
         print("Root Backup directory does not exist.")
 
-    conn1.close()
+    connection.close()
 
 
-def restore_from_dir(dir_name, dir_type="schema"):
+def restore_from_dir(dir_name, dir_type="schema"):        
+    cursor = connection.cursor()
     if os.path.isdir(dir_name):
         files = tree_walker(dir_name, 'file')
         for f in files:
@@ -80,9 +81,6 @@ def restore_from_dir(dir_name, dir_type="schema"):
                 file = open(os.path.join(dir_name, f))
                 sql = file.read()
                 print("working on {}".format(f))
-            
-                cursor = conn1.cursor()
-
                 sql_request = get_sql_from_file(os.path.join(dir_name, f), False)
                 if sql_request is not False:
                     try:
@@ -92,6 +90,10 @@ def restore_from_dir(dir_name, dir_type="schema"):
 
                 file.close()
             elif dir_type == "data":
+                sql_request = " SELECT DATABASE();"
+                cursor.execute(sql_request)
+                db_name = cursor.fetchone()[0]
+               
                 # for the data the sql file is created with mysqldump and includes set foreign key checks to 0
                 # we therefore just run the .sql file using mysql command line
                 restore_string = mysql+" -h {} -P {} -u {} --password={} {} < {}".format(host, mysql_port, user, password, db_name, os.path.join(dir_name, f))

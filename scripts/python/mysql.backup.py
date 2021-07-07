@@ -7,11 +7,10 @@ import re
 
 config = configparser.ConfigParser()
 config.read(os.path.join(os.path.dirname(os.path.realpath(__file__)),'settings.ini'))
-host = config.get('mysql', 'host')
-mysql_port = config.get('mysql', 'port')
-user = config.get('mysql', 'user')
-password = config.get('mysql', 'password')
-mysql_dir = config.get('mysql', 'mysql_dir')
+host = config.get('backup', 'host')
+mysql_port = config.get('backup', 'port')
+user = config.get('backup', 'user')
+password = config.get('backup', 'password')
 root_dir = config.get('backup', 'backup_dir')
 get_routines = int(config.get('backup', 'get_routines'))
 get_schema = int(config.get('backup', 'get_schema'))
@@ -19,6 +18,7 @@ get_data = int(config.get('backup', 'get_data'))
 AllDBs = int(config.get('backup', 'AllDBs'))
 limit_data = int(config.get('backup', 'limit_data'))
 db_list = config.get("backup", "db_list").split(",")
+mysql_dir = config.get('mysql', 'mysql_dir')
 mysqldump='"' +mysql_dir + "\mysqldump.exe"+'"'
 
 
