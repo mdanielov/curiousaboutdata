@@ -115,7 +115,7 @@ def work_on_triggers(db, db_dir):
 
 def work_on_tables(db, db_dir):
     tbl_list = []
-    qry_tbl_list = "SELECT distinct table_name,table_type FROM information_schema.tables where table_schema = '{}';".format(db)
+    qry_tbl_list = "SELECT distinct TABLE_NAME,TABLE_TYPE FROM information_schema.tables where table_schema = '{}';".format(db)
     tbl_list = run_qury(qry_tbl_list)
     if get_schema == 1:
         print("working on schema")
@@ -165,7 +165,8 @@ def write_table_schema(db, tbl, base_dir):
     if os.path.exists(file_path):
         os.remove(file_path)
     qry_schema = "show create table {}.{};".format(db, tbl)
-    schema_txt = run_qury(qry_schema)[0][1]
+    # schema_txt = run_qury(qry_schema)[0][1]
+    schema_txt = run_qury(qry_schema)[0]["Create Table"]
     schema_txt = re.sub(pttrn_incr," ",schema_txt)
     schema_txt = re.sub(r'utf8mb3', 'utf8', schema_txt)
     write_file(file_path, schema_txt)
