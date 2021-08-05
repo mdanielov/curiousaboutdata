@@ -23,7 +23,7 @@ limit_data = 1
 # create common strings
 sqldump_base = mysqldump+" -h {} -P {} -u {} --password={} --compact --default-character-set=utf8 --no-create-info --set-gtid-purged=OFF --hex-blob --column-statistics=0 --no-create-db --skip-opt ".format(host, mysql_port, user, password)
     
-connection = pymysql.connect(host=host, port=int(mysql_port), user=user, password=password, database=dbname, charset='utf8mb4')
+connection = pymysql.connect(host=host, port=int(mysql_port), user=user, password=password, database=dbname, charset='utf8')
 
 qry_db_list = "show databases;"
 except_dbs = ["information_schema", "mysql", "performance_schema", "sys"]
@@ -34,11 +34,13 @@ def main():
     db_list = run_qury(qry_db_list)
     for d in db_list:
         db_name = d[0]
-        print(db_name)
+        # print(db_name)
+        print(root_dir)
         if not os.path.exists(root_dir):
             os.mkdir(root_dir)
-        if db_name not in except_dbs and db_name == dbname:
-                work_on_db(db_name)
+        if db_name not in except_dbs and db_name.lower() == dbname.lower():
+            print("hello")
+            work_on_db(db_name)
 
 
 def work_on_db(dbname):
@@ -179,6 +181,7 @@ def write_trigger(db, tr, base_dir):
 
 
 def write_table_schema(db, tbl, base_dir):
+    pttrn_incr = re.compile(r"\sAUTO_INCREMENT=\d+\s")
     file_path = os.path.join(base_dir, "schema", "tables", tbl + ".sql")
     dir_check(os.path.join(base_dir, "schema", "tables"))
     if os.path.exists(file_path):
@@ -189,6 +192,8 @@ def write_table_schema(db, tbl, base_dir):
     # schema_txt = out.decode('utf-8')
     qry_schema = "show create table {}.{};".format(db, tbl)
     schema_txt = run_qury(qry_schema)[0][1]
+    schema_txt = re.sub(pttrn_incr," ",schema_txt)
+    schema_txt = re.sub(r'utf8mb3', 'utf8', schema_txt)
     write_file(file_path, schema_txt)
 
 
