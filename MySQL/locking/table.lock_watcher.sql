@@ -22,6 +22,7 @@ CREATE TABLE `lock_watcher` (
   `trx_unique_checks` int(1) NOT NULL DEFAULT 0,
   `trx_foreign_key_checks` int(1) NOT NULL DEFAULT 0,
   `trx_last_foreign_key_error` varchar(256) DEFAULT NULL,
+  `trx_adaptive_hash_latched` INT(1) NULL,
   `trx_is_read_only` int(1) NOT NULL DEFAULT 0,
   `trx_autocommit_non_locking` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`watcher_id`)
