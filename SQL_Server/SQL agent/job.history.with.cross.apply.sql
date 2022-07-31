@@ -21,4 +21,5 @@ and jh.run_status = 0 -- this filters out successful jobs. comment it out if you
 order by run_date desc, step_id, run_time) Hist
 where 1=1
 and enabled=1 --comment this out if you want to see schedules for disabled jobs
+and rundate = CONVERT (date, GETDATE())--filter by current day, comment if you want all dates
 order by j.name
