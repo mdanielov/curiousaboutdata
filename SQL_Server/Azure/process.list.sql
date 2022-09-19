@@ -20,7 +20,7 @@ SUBSTRING(st.text, (s.stmt_start/2)+1,((CASE s.stmt_end WHEN -1 THEN DATALENGTH(
 ,rtrim(s.waittime) [WtTme]
 ,rtrim(s.waitresource) [Resource]
 ,rtrim(s.hostname) [Host]
-from master..sysprocesses s with (nolock)
+from sysprocesses s with (nolock)
 CROSS APPLY sys.dm_exec_sql_text(s.sql_handle) AS st
 /* change the where conditions as you see fit */
 where 
@@ -47,6 +47,6 @@ order by blk desc,cpu desc,db desc,WtTme desc
 END TRY
 
 BEGIN catch
-select program_name from master..sysprocesses with (nolock) where program_name like '%SQLAgent%'
+select program_name from sysprocesses with (nolock) where program_name like '%SQLAgent%'
 END catch
 
