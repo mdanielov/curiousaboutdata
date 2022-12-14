@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <MSSQL>
+    <ServerName></ServerName>
+    <AuthenticationType></AuthenticationType>
+    <LoginName></LoginName>
+    <Password></Password>
+    <Database></Database>
+  </MSSQL>
+  <SourceFile></SourceFile>
+  <TargetPath></TargetPath>
+</root>

@@ -1,0 +1,11 @@
+
+<Recipe>
+	<Rules>
+		<Rule>
+			<Fragment>ExecuteStatement</Fragment>
+			<TokenIndexMethod>ExecuteStatement</TokenIndexMethod>
+			<Action>Delete</Action>
+		</Rule>
+
+	</Rules>
+</Recipe>

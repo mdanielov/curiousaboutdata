@@ -1,0 +1,26 @@
+<Recipe>
+	<Rules>
+		<Rule>
+			<Fragment>TSqlScript</Fragment>
+			<TokenIndexMethod>All</TokenIndexMethod>
+			<Action>Delete</Action>
+		</Rule>
+		<Rule>
+			<Fragment>InsertStatement</Fragment>
+			<TokenIndexMethod>InsertedTableName</TokenIndexMethod>
+			<Action>Select</Action>
+		</Rule>
+		<Rule>
+			<Fragment>InsertStatement</Fragment>
+			<TokenIndexMethod>InsertedTableName</TokenIndexMethod>
+			<Action>AddLine</Action>
+		</Rule>
+		
+		<Rule>
+			<Fragment>InsertStatement</Fragment>
+			<TokenIndexMethod>SelectedTableName</TokenIndexMethod>
+			<Action>Select</Action>
+		</Rule>
+
+	</Rules>
+</Recipe>

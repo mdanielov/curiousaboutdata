@@ -1,0 +1,14 @@
+<Recipe>
+	<Rules>
+		<Rule>
+			<Fragment>CreateIndexStatement</Fragment>
+			<TokenIndexMethod>All</TokenIndexMethod>
+			<Action>Delete</Action>
+		</Rule>
+		<Rule>
+			<Fragment>TSqlBatch</Fragment>
+			<TokenIndexMethod>Go</TokenIndexMethod>
+			<Action>Delete</Action>
+		</Rule>
+	</Rules>
+</Recipe>
