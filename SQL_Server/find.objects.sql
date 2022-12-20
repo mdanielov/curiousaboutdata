@@ -1,6 +1,6 @@
 
 SET NOCOUNT on
-DECLARE @srch sysname = 'AMZ_fbaReplenish'
+DECLARE @srch sysname = 'something_to_search'
 ,@dbname sysname
 ,@cntr INT = 1
 ,@obj_count int
