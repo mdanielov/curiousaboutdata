@@ -1,0 +1,20 @@
+{
+Configuration: {
+	SourcePath: “C:\Projects\Parsnip\sourcefiles”
+},
+Rules: [
+	{ 
+Fragment: “CreateTableStatement, 
+Action: "InnerContents",
+Match: "#\w+",
+},
+	{
+		Fragment: "PredicateSetStatement"
+		Action: "Delete"
+	},
+	{
+		Fragment: "TryCatchStatement"
+		Action: "InnerContents",
+		}
+		]
+}

@@ -1,0 +1,200 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.6.1": {
+      "log4net/2.0.12": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Configuration",
+          "System.Web"
+        ],
+        "compile": {
+          "lib/net45/log4net.dll": {}
+        },
+        "runtime": {
+          "lib/net45/log4net.dll": {}
+        }
+      },
+      "Microsoft.SqlServer.TransactSql.ScriptDom/150.4897.1": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Microsoft.SqlServer.TransactSql.ScriptDom.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Microsoft.SqlServer.TransactSql.ScriptDom.dll": {}
+        }
+      },
+      "Newtonsoft.Json/13.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "TSQL.Parser/1.5.2": {
+        "type": "package",
+        "compile": {
+          "lib/net452/TSQL_Parser.dll": {}
+        },
+        "runtime": {
+          "lib/net452/TSQL_Parser.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "log4net/2.0.12": {
+      "sha512": "9P67BCftJ7KG+B7rNOM1A9KczUwyEDed6zbAddy5Cj/73xVkzi+rEAHeOgUnW5wDqy1JFlY8+oTP0m1PgJ03Tg==",
+      "type": "package",
+      "path": "log4net/2.0.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/log4net.dll",
+        "lib/net20/log4net.xml",
+        "lib/net35-client/log4net.dll",
+        "lib/net35-client/log4net.xml",
+        "lib/net35/log4net.dll",
+        "lib/net35/log4net.xml",
+        "lib/net40-client/log4net.dll",
+        "lib/net40-client/log4net.xml",
+        "lib/net40/log4net.dll",
+        "lib/net40/log4net.xml",
+        "lib/net45/log4net.dll",
+        "lib/net45/log4net.xml",
+        "lib/netstandard1.3/log4net.dll",
+        "lib/netstandard1.3/log4net.xml",
+        "lib/netstandard2.0/log4net.dll",
+        "lib/netstandard2.0/log4net.xml",
+        "log4net.2.0.12.nupkg.sha512",
+        "log4net.nuspec",
+        "package-icon.png"
+      ]
+    },
+    "Microsoft.SqlServer.TransactSql.ScriptDom/150.4897.1": {
+      "sha512": "ksYyHU+XS6VOR9d6XFaQwNFBbkR3yl1Q5zP48uzdh4OZgP4pVCAsoaeQsZQKdpnYozRTM13X601sA39MER4J/g==",
+      "type": "package",
+      "path": "microsoft.sqlserver.transactsql.scriptdom/150.4897.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net46/Microsoft.SqlServer.TransactSql.ScriptDom.dll",
+        "lib/netstandard2.0/Microsoft.SqlServer.TransactSql.ScriptDom.dll",
+        "microsoft.sqlserver.transactsql.scriptdom.150.4897.1.nupkg.sha512",
+        "microsoft.sqlserver.transactsql.scriptdom.nuspec"
+      ]
+    },
+    "Newtonsoft.Json/13.0.1": {
+      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.1.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
+    "TSQL.Parser/1.5.2": {
+      "sha512": "kUg5ST9ubRsWZGjO7YPBVTEghVo6yXwd6F3UAbC2QzPW/hqjrM+2Gh+ou9Sit3pgtRp1oChK8dg+K8zbAi4dcA==",
+      "type": "package",
+      "path": "tsql.parser/1.5.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net452/TSQL_Parser.dll",
+        "lib/net452/TSQL_Parser.xml",
+        "lib/netstandard2.0/TSQL_Parser.dll",
+        "lib/netstandard2.0/TSQL_Parser.xml",
+        "tsql.parser.1.5.2.nupkg.sha512",
+        "tsql.parser.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.6.1": [
+      "Microsoft.SqlServer.TransactSql.ScriptDom >= 150.4897.1",
+      "Newtonsoft.Json >= 13.0.1",
+      "TSQL.Parser >= 1.5.2",
+      "log4net >= 2.0.12"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\User\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\User\\Documents\\zevedtov_internal\\Tools\\Parsnip\\Parsnip\\Parsnip.csproj",
+      "projectName": "Parsnip",
+      "projectPath": "C:\\Users\\User\\Documents\\zevedtov_internal\\Tools\\Parsnip\\Parsnip\\Parsnip.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\Documents\\zevedtov_internal\\Tools\\Parsnip\\Parsnip\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net461"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net461": {
+          "targetAlias": "net461",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net461": {
+        "targetAlias": "net461",
+        "dependencies": {
+          "Microsoft.SqlServer.TransactSql.ScriptDom": {
+            "target": "Package",
+            "version": "[150.4897.1, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
+          },
+          "TSQL.Parser": {
+            "target": "Package",
+            "version": "[1.5.2, )"
+          },
+          "log4net": {
+            "target": "Package",
+            "version": "[2.0.12, )"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
