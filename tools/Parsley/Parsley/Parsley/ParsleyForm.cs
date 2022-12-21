@@ -96,7 +96,7 @@ namespace Parsley
                 return;
 
             }
-            var parentPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.FullName, "Parsnip\\");
+            var parentPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.FullName, "Parsnip\\Recipes\\");
             //var curFiles = ;
             foreach (var curSqlFile in lstBoxFiles.SelectedItems)
             {

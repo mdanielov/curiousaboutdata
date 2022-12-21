@@ -143,11 +143,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Documents\\zevedtov_internal\\Tools\\Parsnip\\Parsnip\\Parsnip.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Documents\\curiousaboutdata\\tools\\Parsnip\\Parsnip\\Parsnip.csproj",
       "projectName": "Parsnip",
-      "projectPath": "C:\\Users\\User\\Documents\\zevedtov_internal\\Tools\\Parsnip\\Parsnip\\Parsnip.csproj",
+      "projectPath": "C:\\Users\\User\\Documents\\curiousaboutdata\\tools\\Parsnip\\Parsnip\\Parsnip.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Documents\\zevedtov_internal\\Tools\\Parsnip\\Parsnip\\obj\\",
+      "outputPath": "C:\\Users\\User\\Documents\\curiousaboutdata\\tools\\Parsnip\\Parsnip\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
