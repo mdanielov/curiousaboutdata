@@ -1,0 +1,35 @@
+About process_list query:
+Purpose: Return information about all running processes.
+
+Tables queried:
+sys.sys_processes contains information about processes that are running on an instance of SQL Server. These processes can be client processes or system processes. To access sysprocesses, you must be in the master database context, or you must use the master.dbo.sysprocesses three-part name.
+
+sys.dm_exec_sql_text-Returns the text of the SQL batch that is identified by the specified sql_handle.- used as parameter
+
+msdb..sysjobs - Stores the information for each scheduled job to be executed by SQL Server Agent
+
+Columns queried:
+
+	st.text, --text of job executing
+	,rtrim(s.cmd) --Command currently being executed.
+	,s.physical_io --	Cumulative disk reads and writes for the process.
+	,s.cpu --Cumulative CPU time for the process. The entry is updated for all processes, regardless of whether the SET STATISTICS TIME option is ON or OFF.
+	,db_name(s.dbid) -- Name of ID of the database currently being used by the process.
+	,s.spid --SQL Server session ID.
+	,s.loginame -- 
+	,s.WaitType -- Reserved
+	,s.waittime --	Current wait time in milliseconds.
+	,s.waitresource --	Textual representation of a lock resource.
+	,s.hostname -- Name of the workstation.
+	
+Join Type:
+CROSS APPLY:
+The CROSS APPLY operator returns only those rows from the left table expression (in its final output) if it matches with the right table expression. In other words, the right table expression returns rows for the left table expression match only.
+
+
+
+Conditions:
+Can be added or removed at User's discretion.
+
+@@spid - the spid of the current query
+
