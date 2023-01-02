@@ -1,0 +1,15 @@
+database_size documentation 
+
+Use:
+Returns information (specif. size)  about all the databases in a given sql server instance
+
+How to use:
+run query on any sql server instance
+
+
+Columns returned:
+Database Name
+file_type
+db_size
+
+

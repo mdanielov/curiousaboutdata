@@ -1,0 +1,16 @@
+Info about column.lengths.sql:
+
+Use: 
+Returns information about all the columns in a given table within a given database
+
+How to use:
+Set @table variable to the name of the table you would like to get info on.
+
+Cols returned:
+bytes
+name
+column_id
+sys_type_name 
+max_length
+precision
+is_nullable
