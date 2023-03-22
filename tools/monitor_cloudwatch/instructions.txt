@@ -1,0 +1,36 @@
+what needs to be done:
+
+client.cloudwatch.py is a skelleton of what needs to be done.
+
+credentials should be moved to a settings.ini file and it should be in gitignore
+
+monitoring.tables.sql has the structure of mysql tables that need to accept this data
+each instance that is monitored should be entered in the `instance` table, and all of its metrics be related by a foreign key
+
+settings.ini should also have an option for specifying start and end dates.
+it should also have an array of instance names. Currently it's just one instance '' and it's hardcoded
+please change that.
+
+In the current implementation, there is no pagination. Please implement it.
+
+last, but not least, here is the list of metrics that we need to get:
+
+CPUUtilization		
+DiskQueueDepth		
+DatabaseConnections	
+FreeableMemory		
+FreeStorageSpace	
+ReadIOPS			
+WriteIOPS			
+ReadLatency			
+WriteLatency		
+ReplicaLag			
+
+DDLLatency
+SelectLatency
+InsertLatency
+DeleteLatency
+UpdateLatency
+Deadlocks
+BufferCacheHitRatio
+Queries
