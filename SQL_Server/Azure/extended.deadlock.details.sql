@@ -47,6 +47,7 @@ CREATE TABLE #tbl_process_frame
 ,[p_id] bigint
 ,[procname] varchar(120)
 ,[sqlhandle] varbinary(64)
+,[frame_text] varchar(max)
 )
 
 --initial list of the deadlock XML from the system function
@@ -89,17 +90,88 @@ CROSS APPLY E.[dl_frg].nodes('/deadlock/process-list/process') AS T(myProcess)
 
 
 --get the frame
-INSERT #tbl_process_frame([p_id],[procname],[sqlhandle])
+INSERT #tbl_process_frame([p_id],[procname],[sqlhandle],[frame_text])
 SELECT 
 P.p_id
 ,T.myFrame.value('(./@procname)[1]', 'varchar(120)') [procname]
-,T.myFrame.value('(./@sqlhandle)[1]', 'varbinary(64)') [sqlhandle]
+,CAST(T.myFrame.value('(./@sqlhandle)[1]', 'varchar(max)')as varbinary(64)) [sqlhandle]
+,T.myFrame.value('(.)[1]', 'varchar(max)') [frame_text]
 from #tbl_process_list P
 CROSS APPLY P.Q.nodes('/process/executionStack/frame') AS T(myFrame)
 
-select E.dl_id
+update #tbl_process_frame set procname = NULL where procname = 'unknown'
+update #tbl_process_frame set frame_text = NULL where frame_text like '%unknown%'
+
+--select E.dl_id
+--, E.Event_TimeStampt
+--,e.victimProcess
+--,P.ProcessID
+--,p.lockMode
+--,p.hostname
+--,p.inputbuf
+--,p.isolationlevel
+--,p.loginname
+--,p.status
+--from #tbl_process_list P
+--JOIN #tbl_events E ON P.e_id = E.e_id order by 2 desc
+
+
+select 
+ E.dl_id
+,p.p_id
+,e.event_data
 , E.Event_TimeStampt
 ,e.victimProcess
-,P.* from #tbl_process_list P
+,P.ProcessID
+,p.lockMode
+,p.hostname
+,COALESCE(f.frame_text,f.procname,p.inputbuf) [What_is_runnning]
+,p.inputbuf
+,f.procname
+,f.frame_text
+,p.isolationlevel
+,p.loginname
+,p.status
+from #tbl_process_list P
 JOIN #tbl_events E ON P.e_id = E.e_id
-where E.Event_TimeStampt BETWEEN '2023-03-28 13:00:00' AND '2023-03-28 14:00:00'
+JOIN #tbl_process_frame F ON P.p_id = F.p_id
+where 
+1=1
+AND (f.procname not in ('filtered')OR f.procname is null)
+AND p.inputbuf not like '%filtered%'
+AND p.inputbuf not like '%DistributorStores_Releases%' 
+AND p.inputbuf not like '%@p6 int,@p7 bigint,@p0%'
+AND p.inputbuf not like '%@p4 int,@p5 bigint,@p0%'
+AND p.inputbuf not like '%@p3 int,@p4 bigint,@p0%'
+AND p.inputbuf not like '%INSERT ![dbo!].![Tracks!]%' ESCAPE '!'
+AND p.inputbuf not like '%INSERT ![dbo!].![Contacts!]%' ESCAPE '!'
+AND p.inputbuf not like '%Proc ![Database Id = 13 Object Id = 402100473!]%' ESCAPE '!'
+AND p.inputbuf not like '%![Images!]%' ESCAPE '!'
+AND p.inputbuf not like '%![Artists!]%' ESCAPE '!'
+AND (f.procname not like '%TR_DistributorStores_Releases_UPDATE_FirstDeliveryDate%' OR f.procname is null)
+AND (f.procname not like '%SP_DeleteStatement%' OR f.procname is null)
+AND (f.frame_text not like '%sp_CopyIndexes%' OR f.frame_text is null)
+AND (f.procname not like '%sp_CopyIndexes%' OR f.procname is null)
+AND (f.procname not like '%SP_SplitStatement%' OR f.procname is null)
+AND (f.frame_text not like '%SP_SwitchOneTableData%' OR f.frame_text is null)
+AND (f.frame_text not like '%sp_cci_tuple_mover%' OR f.frame_text is null)
+
+order by 4 desc
+
+/*
+SELECT 
+P.p_id
+,p.ProcessID
+,T.myFrame.value('(./@procname)[1]', 'varchar(120)') [procname]
+,CAST(T.myFrame.value('(./@sqlhandle)[1]', 'varchar(max)')as varbinary(64)) [sqlhandle]
+,T.myFrame.value('(.)[1]', 'varchar(max)') [frame_text]
+,p.Q
+from #tbl_process_list p
+CROSS APPLY P.Q.nodes('/process/executionStack/frame') AS T(myFrame)
+where p.p_id = 2
+
+select * from #tbl_process_frame p 
+where p.p_id = 2
+and (p.procname not in ('filtered','adhoc') OR p.procname is null)
+
+*/

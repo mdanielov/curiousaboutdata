@@ -1,5 +1,4 @@
-use master
-GO
+
 select * from (
 select --top 50 
 qs.creation_time
@@ -23,6 +22,6 @@ where 1=1
 --order by qs.creation_time desc
 ) X
 --where 
---where statement_text like '%insert into%'
+where statement_text like '%parententerpriseid %'
 order by last_execution_time desc
 
