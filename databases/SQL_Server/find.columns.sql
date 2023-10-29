@@ -5,7 +5,7 @@ when 'U' THEN 'Table'
 when 'P' THEN 'Stored Procedure'
 when 'F' THEN 'Function'
 when 'FN' THEN 'Function'
-when 'TF' THEN 'Table Function'
+when 'TF' THEN 'Table Function'	
 when 'V' THEN 'View'
 ELSE 'Tree' End,
 object_name(a.id) [Object]
@@ -25,7 +25,7 @@ JOIN systypes c ON a.xtype=c.xtype
 where 
 1=1
 --AND a.name='rdpaycode' 
-and a.name like '%price%'
+and a.name like '%parent%'
 --AND b.name='InventoryTag'
 and b.type='U' 
 AND c.name NOT IN ('sysname')

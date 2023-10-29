@@ -1,12 +1,12 @@
-use master
-GO
 select * from (
-select --top 50 
+select top 100 
 qs.creation_time
 ,qs.last_execution_time
 ,qs.execution_count
 ,tp.query_plan 
 ,qs.plan_handle
+,qt.dbid
+,qt.objectid
 --,tx.query_plan
 , SUBSTRING(qt.text, (qs.statement_start_offset/2)+1,((CASE qs.statement_end_offset WHEN -1 THEN DATALENGTH(qt.text) ELSE qs.statement_end_offset  END - qs.statement_start_offset)/2) + 1) AS statement_text
 ,cast (tx.query_plan AS XML) [test]
@@ -20,7 +20,7 @@ where 1=1
 --AND qt.objectid=object_id('my_object_name')
 --AND qt.objectid =  288398966
 --AND qs.creation_time < 'my_timestamp'
---order by qs.creation_time desc
+order by qs.creation_time desc
 ) X
 --where 
 --where statement_text like '%insert into%'
