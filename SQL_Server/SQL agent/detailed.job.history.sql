@@ -3,6 +3,7 @@ GO
 declare @n int = 1
 
 SELECT	--top 50
+	distinct
 	name,
 	job_id,
 	[status],
@@ -12,7 +13,9 @@ SELECT	--top 50
 	CONVERT(DATE,rundate) rundate,
 	runtime AS start_time,
 	duration,
-	[message]
+	[message],
+	[command],
+	CASE WHEN schedule_id is null THEN 'NoSchedule' ELSE 'YesSchedule' END [HasSchedule]
 FROM	(	
 select 
 j.[name]
@@ -27,9 +30,11 @@ j.[name]
 ,Hist.[rundate]
 ,Hist.[runtime]
 ,Hist.[message]
+,s.schedule_id
 FROM 
 sysjobs j  JOIN
 sysjobsteps b ON j.job_id=b.job_id
+LEFT OUTER JOIN dbo.sysjobschedules s ON j.job_id = s.job_id
 OUTER APPLY
 (select top  (@n)
 CASE run_status
