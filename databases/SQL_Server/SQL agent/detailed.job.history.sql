@@ -51,6 +51,7 @@ from msdb..sysjobhistory jh where jh.job_id=j.job_id and b.step_id = jh.step_id
 --and step_id <>0
 --and jh.run_status = 0 -- this filters out successful jobs. comment it out if you want to see them all
 order by run_date desc, step_id, run_time) Hist
+WHERE  j.job_id LIKE '%67386'
 ) A
 order by [name],[step_id]
 --select * from sysjobs
