@@ -1,13 +1,12 @@
 param(
     [string] $Server_addr = "127.0.0.1",
-    [string] $db_name = "mydb",
-    [string] $User = "myuser",
-    [string] $Pwd = "mypwd",
+    [string] $db_name = "KiMeTzion",
+    [string] $User = "",
+    [string] $Pwd = "",
     [string] $T = "",
 	[string] $M = "dbo",
-	[string] $f = "c:\output"
+	[string] $f = "f:\workspace"
     )
-
 
     
 function ScriptOut-DBObject {
@@ -97,7 +96,7 @@ $scrp.Options.Indexes = $true
 function format-scripted-file{
 param($object)
 $object.script($scrp.Options)
-$og_script = $dbs[$d].StoredProcedures[0].Script($scrp.Options)
+$og_script = $dbs[$db_name].StoredProcedures[0].Script($scrp.Options)
 $formatted_script = @() + $og_array -ne 'SET ANSI_NULLS ON' -ne  'SET QUOTED_IDENTIFIER ON'
 Write-Host $formatted_script
 }
@@ -106,7 +105,7 @@ if ($M){
     $schemas = @($M)
 }
 else{
-    $schemas = $dbs[$d].Schemas | where IsSystemObject -eq $false | Select Name
+    $schemas = $dbs[$db_name].Schemas |  ?{$_.IsSystemObject -eq $false -or $_.Name -eq "dbo"} | Select Name
     if (-not $schemas.Contains('dbo')){
         $schemas += 'dbo'
     }
@@ -124,7 +123,7 @@ $sch = $sch.trim()
 
 #tables
     if ($T -match "^$|\btbl\b") {
-	    $tables = ($dbs[$d].Tables | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch })
+	    $tables = ($dbs[$db_name].Tables | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch })
 	
         delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_') +"\Tables"), "table")
         write-host "starting to script schema $sch"
@@ -135,33 +134,29 @@ $sch = $sch.trim()
     if ($T -match "^$|\bzzz\b") {
         delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\Defaults"), "default")
         delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\User Defined Types"), "udtt")
-	    ScriptOut-DBObject "default" ($sch.Replace('\', '_')+"\Defaults") ($dbs[$d].Defaults | where {$_.Schema -eq $sch})
+	    ScriptOut-DBObject "default" ($sch.Replace('\', '_')+"\Defaults") ($dbs[$db_name].Defaults | where {$_.Schema -eq $sch})
     
-	    if ($dbs[$d].UserDefinedTableTypes  -ne $null)
+	    if ($dbs[$db_name].UserDefinedTableTypes  -ne $null)
        {
             delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\UserDefinedTypes"), "udt")
-            ScriptOut-DBObject "udtt" ($sch.Replace('\', '_')+"\User Defined Types") ($dbs[$d].UserDefinedTableTypes | where {$_.Schema -eq $sch})
+            ScriptOut-DBObject "udtt" ($sch.Replace('\', '_')+"\User Defined Types") ($dbs[$db_name].UserDefinedTableTypes | where {$_.Schema -eq $sch})
            }
        
     }
 
     if ($T -match "^$|\bufn\b") {
         delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\Functions"), "function")
-	    ScriptOut-DBObject "function" ($sch.Replace('\', '_')+"\Functions") ($dbs[$d].UserDefinedFunctions | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch})
+	    ScriptOut-DBObject "function" ($sch.Replace('\', '_')+"\Functions") ($dbs[$db_name].UserDefinedFunctions | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch})
     }
 
     if ($T -match "^$|\busp\b") {
         delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\Stored Procedures"), "proc") 
-	    ScriptOut-DBObject "proc" ($sch.Replace('\', '_')+"\Stored Procedures") ($dbs[$d].StoredProcedures | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch})
+	    ScriptOut-DBObject "proc" ($sch.Replace('\', '_')+"\Stored Procedures") ($dbs[$db_name].StoredProcedures | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch})
     }
 
     if ($T -match "^$|\bviw\b") {
         delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\Views"), "view")
-	    ScriptOut-DBObject "view" ($sch.Replace('\', '_')+"\Views") ($dbs[$d].Views | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch})
+	    ScriptOut-DBObject "view" ($sch.Replace('\', '_')+"\Views") ($dbs[$db_name].Views | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch})
     }
 
 }
-
-
-
-
