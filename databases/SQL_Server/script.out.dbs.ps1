@@ -7,10 +7,10 @@ param(
 	[string] $M = "dbo",
 	[string] $f = "f:\workspace"
     )
-
     
 function ScriptOut-DBObject {
       param ($objecttype, $relpath, $objects)
+      
 	  $dirpath = $filepath + "\" + $relpath
 	  New-Item $dirpath -type directory -force | out-null
       $listfilepath = ("{0}\@{1}_{2}.txt" -f $logpath, $objecttype, $timestamp)
@@ -23,7 +23,7 @@ function ScriptOut-DBObject {
 
       for ($i=0; $i -lt $count; $i++) {
             $object = $objects[$i]
-            #Write-Host $object.Name
+            Write-Host ($object.Name).Replace('\', '_').Replace('/', '-').Replace("'", '-')
             if ($object.DateLastModified -ne $null) {
                   $objectdate = $object.DateLastModified
             } else { # for example: $objecttype = default
@@ -32,7 +32,7 @@ function ScriptOut-DBObject {
             $logentry = "{0}`t{1}`t{2}" -f $objectdate.ToString("yyyy-MM-dd HH:mm:ss"), $objecttype, $object.Name
             Write-Host ("[{0} of {1}]`t{2}" -f ($i+1), $count, $logentry)
             echo $logentry | Out-File -encoding utf8 -force -append -FilePath $listfilepath
-	 		$fullfilepath = "{0}\{1}.sql" -f $dirpath, $object.Name  #, $objecttype
+	 		$fullfilepath = "{0}\{1}.sql" -f $dirpath, ($object.Name).Replace('\', '_').Replace('/', '-').Replace("'", '-')  #, $objecttype
 			$output = $object.script($scrp.Options)
             #Write-Host $output[2..($output.count)]
 
@@ -127,26 +127,26 @@ $sch = $sch.trim()
 	
         delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_') +"\Tables"), "table")
         write-host "starting to script schema $sch"
-	    ScriptOut-DBObject "table" ($sch.Replace('\', '_')+"\Tables") $tables
+	    ScriptOut-DBObject "table" ($sch.Replace('\', '-').Replace('/', '-').Replace("'", '-') +"\Tables") $tables
     }
 
 
     if ($T -match "^$|\bzzz\b") {
-        delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\Defaults"), "default")
-        delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\User Defined Types"), "udtt")
+        delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_').Replace('/', '-').Replace("'", '-')+"\Defaults"), "default")
+        delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_').Replace('/', '-').Replace("'", '-')+"\User Defined Types"), "udtt")
 	    ScriptOut-DBObject "default" ($sch.Replace('\', '_')+"\Defaults") ($dbs[$db_name].Defaults | where {$_.Schema -eq $sch})
     
 	    if ($dbs[$db_name].UserDefinedTableTypes  -ne $null)
        {
-            delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\UserDefinedTypes"), "udt")
-            ScriptOut-DBObject "udtt" ($sch.Replace('\', '_')+"\User Defined Types") ($dbs[$db_name].UserDefinedTableTypes | where {$_.Schema -eq $sch})
+            delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_').Replace('/', '-').Replace("'", '-')+"\UserDefinedTypes"), "udt")
+            ScriptOut-DBObject "udtt" ($sch.Replace('\', '_').Replace('/', '-').Replace("'", '-')+"\User Defined Types") ($dbs[$db_name].UserDefinedTableTypes | where {$_.Schema -eq $sch})
            }
        
     }
 
     if ($T -match "^$|\bufn\b") {
-        delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\Functions"), "function")
-	    ScriptOut-DBObject "function" ($sch.Replace('\', '_')+"\Functions") ($dbs[$db_name].UserDefinedFunctions | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch})
+        delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_').Replace('/', '-').Replace("'", '-')+"\Functions"), "function")
+	    ScriptOut-DBObject "function" ($sch.Replace('\', '_').Replace('/', '-').Replace("'", '-')+"\Functions") ($dbs[$db_name].UserDefinedFunctions | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch})
     }
 
     if ($T -match "^$|\busp\b") {
@@ -155,8 +155,8 @@ $sch = $sch.trim()
     }
 
     if ($T -match "^$|\bviw\b") {
-        delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_')+"\Views"), "view")
-	    ScriptOut-DBObject "view" ($sch.Replace('\', '_')+"\Views") ($dbs[$db_name].Views | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch})
+        delete-dir ("{0}\{1}\*.{2}.sql" -f $filepath, ($sch.Replace('\', '_').Replace('/', '-').Replace("'", '-')+"\Views"), "view")
+	    ScriptOut-DBObject "view" ($sch.Replace('\', '_').Replace('/', '-').Replace("'", '-')+"\Views") ($dbs[$db_name].Views | where {$_.IsSystemObject -eq $false -and $_.Schema -eq $sch})
     }
 
 }
