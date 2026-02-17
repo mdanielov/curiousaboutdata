@@ -1,0 +1,1 @@
+{"export": {}, "import": {"amazonitemmaster": ["amazonItemMaster_001.tsv"], "amz_browsetreereport": ["AMZ_browseTreeReport_001.tsv"], "amz_fbacustomerreturns": ["AMZ_FBACustomerReturns_001.tsv"], "amz_sellerfulfilledallreturns": ["AMZ_SellerFulfilledAllReturns_001.tsv"], "manual_shippingaddress": ["manual_ShippingAddress_001.tsv"]}}
